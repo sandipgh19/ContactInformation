@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_profile"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_weight=".1"
+        android:id="@+id/btn_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:clipToPadding="false"
+        android:orientation="vertical">
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="249dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="hello"
+            android:scaleType="centerInside"
+            android:visibility="gone" />
+
+
+        <Button
+            android:id="@+id/facebook_button"
+            style="@style/AppTheme.AccountChooser.FacebookButton"
+            android:textColor="@color/white"
+            android:text="Sign in with Facebook" />
+
+        <Button
+            android:id="@+id/google_button"
+            style="@style/AppTheme.AccountChooser.GoogleButton"
+            android:text="Sign in with Google"
+            android:layout_marginTop="8dp"/>
+
+
+
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/or_line">
+
+        <TextView
+            android:id="@+id/lab5"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="1.5dp"
+            android:layout_marginTop="0dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="OR"
+            android:textAlignment="center"
+            android:textColor="@color/orLineGrey"
+            android:typeface="normal" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/textColor"
+            android:text="Username"/>
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            style="@style/AppTheme.EditText"
+            android:inputType="textEmailAddress" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/textColor"
+            android:text="Password"/>
+        <EditText
+            android:id="@+id/password"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:paddingRight="40dp"
+            style="@style/AppTheme.EditText.PasswordField" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Forgot Password?"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:id="@+id/forgotPassword"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="LOG IN"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:id="@+id/login"
+                android:gravity="center"
+                android:textColor="#ADD8E6"
+                android:background="@drawable/service_button"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                android:elevation="5dp"
+                tools:ignore="RtlCompat" />
+
+    </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
