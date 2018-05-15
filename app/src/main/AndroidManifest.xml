@@ -39,8 +39,11 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".AccountActivity"
-            style="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity
+            android:name=".AccountActivity"
+            style="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity android:name=".RegistrationActivity" />
+        <activity android:name=".SignupActivity"></activity>
     </application>
 
 </manifest>

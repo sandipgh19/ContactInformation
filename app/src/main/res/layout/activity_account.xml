@@ -29,7 +29,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/image"
+            android:id="@+id/userimage"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_marginTop="20dp"
@@ -42,6 +42,7 @@
             app:civ_shadow_color="#8BC34A"/>
 
         <TextView
+            android:id="@+id/name"
             tools:text="sandnskjbkdbksdssdjkjksd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,6 +54,7 @@
 
 
         <TextView
+            android:id="@+id/email"
             tools:text="sandnskjbkdbksdssdjkjksd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +62,8 @@
             android:layout_gravity="center"
             style="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@color/textColor"
-            android:drawableLeft="@drawable/ic_location"
+            android:drawableLeft="@drawable/ic_email"
+            android:padding="10dp"
             android:layout_marginTop="20dp"/>
 
     </LinearLayout>

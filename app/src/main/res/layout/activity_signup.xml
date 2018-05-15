@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="sandip.example.socallogin.SignupActivity">
+
+
+    <ScrollView
+        android:id="@+id/scrollViewSignup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="120dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                style="@style/AppTheme.WrapperStyle"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/name_layout"
+                    style="@style/AppTheme.Text.TextInputLayout"
+                    app:errorTextAppearance="@style/AppTheme.Text.ErrorText"
+                    app:hintTextAppearance="@style/AppTheme.Text.HintText">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/name"
+                        style="@style/AppTheme.EditText2"
+                        android:hint="Name"
+                        android:inputType="textPersonName" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/email_layout"
+                    style="@style/AppTheme.Text.TextInputLayout"
+                    app:errorTextAppearance="@style/AppTheme.Text.ErrorText"
+                    app:hintTextAppearance="@style/AppTheme.Text.HintText">
+
+                    <EditText
+                        android:id="@+id/email"
+                        style="@style/AppTheme.EditText2"
+                        android:hint="Email"
+                        android:inputType="textEmailAddress" />
+                </android.support.design.widget.TextInputLayout>
+
+                <RelativeLayout
+                    android:id="@+id/RelativeLayoutPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/password_layout"
+                        style="@style/AppTheme.Text.TextInputLayout"
+                        app:errorTextAppearance="@style/AppTheme.Text.ErrorText"
+                        app:hintTextAppearance="@style/AppTheme.Text.HintText">
+
+                        <EditText
+                            android:id="@+id/password"
+                            style="@style/AppTheme.EditText2.PasswordField" />
+                    </android.support.design.widget.TextInputLayout>
+
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Already Member? Login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textColor"
+                        android:id="@+id/login"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:text="Sign UP"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/signup"
+                        android:gravity="center"
+                        android:textColor="#ADD8E6"
+                        android:background="@drawable/service_button"
+                        android:textSize="20dp"
+                        android:layout_weight="1"
+                        android:elevation="5dp"
+                        tools:ignore="RtlCompat" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </FrameLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

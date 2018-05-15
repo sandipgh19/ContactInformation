@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="sandip.example.socallogin.RegistrationActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
+        android:theme="@style/Widget.AppCompat.Toolbar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            app:theme="@style/Widget.AppCompat.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@color/colorPrimary"
+            app:popupTheme="@style/TextAppearance.AppCompat" >
+
+
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:clipToPadding="false"
+        android:layout_gravity="center"
+    android:orientation="vertical">
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="249dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="hello"
+            android:scaleType="centerInside"
+            android:visibility="gone" />
+
+
+        <Button
+            android:id="@+id/facebook_button"
+            style="@style/AppTheme.AccountChooser.FacebookButton1"
+            android:text="Sign up with Facebook" />
+
+        <Button
+            android:id="@+id/google_button"
+            style="@style/AppTheme.AccountChooser.GoogleButton"
+            android:text="Sign up with Google" />
+
+        <Button
+            android:id="@+id/email_button"
+            style="@style/AppTheme.AccountChooser.EmailButton"
+            android:text="Sign up with Email"/>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
