@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         setContentView(R.layout.activity_main);
 
         email = findViewById(R.id.email);
-        password  = findViewById(R.id.password);
+        password = findViewById(R.id.password);
 
         login = findViewById(R.id.login);
         signup = findViewById(R.id.signup);
@@ -114,8 +114,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                                     logincheck(email, password);
 
-                                }catch(Exception e){
-                                    e.printStackTrace();;
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    ;
                                 }
                             }
                         });
@@ -143,10 +144,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onClick(View view) {
 
-               if((email.getText().toString().length()>0) && (password.getText().toString().length()>0)) {
+                if ((email.getText().toString().length() > 0) && (password.getText().toString().length() > 0)) {
 
-                   logincheck(email.getText().toString(), password.getText().toString());
-               }
+                    logincheck(email.getText().toString(), password.getText().toString());
+                }
             }
         });
 
@@ -224,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                         if (!task.isSuccessful()) {
                             // there was an error
-                            Toast.makeText(MainActivity.this,"Oops! Something Went Wrong!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Oops! Something Went Wrong!", Toast.LENGTH_LONG).show();
 
                         } else {
                             Intent intent = new Intent(MainActivity.this, AccountActivity.class);

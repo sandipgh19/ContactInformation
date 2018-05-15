@@ -16,6 +16,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,6 +29,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private TextView login;
     private RelativeLayout relativeLayout;
     private FirebaseAuth auth;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,33 +38,35 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        nameLayout =findViewById(R.id.name_layout);
+
+        nameLayout = findViewById(R.id.name_layout);
         emailLayout = findViewById(R.id.email_layout);
         passwordLayout = findViewById(R.id.password_layout);
 
-        nameTxt  = findViewById(R.id.name);
+        nameTxt = findViewById(R.id.name);
         emailTxt = findViewById(R.id.email);
         passwordTxt = findViewById(R.id.password);
         relativeLayout = findViewById(R.id.RelativeLayoutPassword);
 
-        if(getIntent().hasExtra("email")) {
+        if (getIntent().hasExtra("email")) {
             emailTxt.setText(getIntent().getStringExtra("email"));
             emailTxt.setEnabled(false);
         }
 
-        if(getIntent().hasExtra("name")) {
+        if (getIntent().hasExtra("name")) {
             nameTxt.setText(getIntent().getStringExtra("name"));
             nameTxt.setEnabled(false);
         }
 
-        if(getIntent().hasExtra("type")) {
+        if (getIntent().hasExtra("type")) {
             String type = getIntent().getStringExtra("type");
-            if(type.equalsIgnoreCase("gmail")) {
+            if (type.equalsIgnoreCase("gmail")) {
 
                 relativeLayout.setVisibility(View.GONE);
                 passwordTxt.setText("gmail1");
-            }else if(type.equalsIgnoreCase("facebook")) {
+            } else if (type.equalsIgnoreCase("facebook")) {
 
                 relativeLayout.setVisibility(View.GONE);
                 passwordTxt.setText("facebook");
@@ -77,9 +83,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
 
-        if(view==signUp) {
+        if (view == signUp) {
 
-            if(nameTxt.getText().toString().length()>0 && emailTxt.getText().toString().length()>0 && passwordTxt.getText().toString().length()>0) {
+            if (nameTxt.getText().toString().length() > 0 && emailTxt.getText().toString().length() > 0 && passwordTxt.getText().toString().length() > 0) {
 
 
                 auth.createUserWithEmailAndPassword(emailTxt.getText().toString(), passwordTxt.getText().toString())
@@ -93,22 +99,47 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                                 if (!task.isSuccessful()) {
 //                                    Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
 //                                            Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(SignupActivity.this,"Oops! Something Went Wrong!",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(SignupActivity.this, "Oops! Something Went Wrong!", Toast.LENGTH_LONG).show();
 
                                 } else {
-                                    startActivity(new Intent(SignupActivity.this, MainActivity.class));
-                                    finish();
+                                    onAuthSuccess(task.getResult().getUser());
                                 }
                             }
                         });
 
             }
 
-        }else if (view==login) {
+        } else if (view == login) {
 
             Intent intent = new Intent(SignupActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
+    }
+
+
+    private void onAuthSuccess(FirebaseUser user) {
+        String username = usernameFromEmail(user.getEmail());
+
+        // Write new user
+        writeNewUser(user.getUid(), username, user.getEmail());
+
+        // Go to MainActivity
+        startActivity(new Intent(SignupActivity.this, MainActivity.class));
+        finish();
+    }
+
+    private String usernameFromEmail(String email) {
+        if (email.contains("@")) {
+            return email.split("@")[0];
+        } else {
+            return email;
+        }
+    }
+
+    private void writeNewUser(String userId, String name, String email) {
+        User user = new User(name, email);
+
+        mDatabase.child("my_app_user").child(userId).setValue(user);
     }
 }

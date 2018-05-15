@@ -27,7 +27,7 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
-public class RegistrationActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+public class RegistrationActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private static final String EMAIL = "email";
     private LoginButton loginButton;
@@ -85,8 +85,9 @@ public class RegistrationActivity extends AppCompatActivity implements GoogleApi
                                     intent.putExtra("type", "facebook");
                                     startActivity(intent);
 
-                                }catch(Exception e){
-                                    e.printStackTrace();;
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    ;
                                 }
                             }
                         });

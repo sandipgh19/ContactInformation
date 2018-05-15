@@ -52,7 +52,7 @@ public class AccountActivity extends AppCompatActivity {
         }
         Bitmap bmp = null;
         try {
-            if(url!=null) {
+            if (url != null) {
                 bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
             }
 
