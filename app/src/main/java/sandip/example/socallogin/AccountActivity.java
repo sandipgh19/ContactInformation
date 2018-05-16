@@ -44,25 +44,6 @@ public class AccountActivity extends AppCompatActivity {
         name.setText(auth.getCurrentUser().getDisplayName());
         email.setText(auth.getCurrentUser().getEmail());
 
-        URL url = null;
-        try {
-            url = new URL(String.valueOf(auth.getCurrentUser().getPhotoUrl()));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Bitmap bmp = null;
-        try {
-            if (url != null) {
-                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        circularImageView.setImageBitmap(bmp);
-
 
     }
 
@@ -84,6 +65,7 @@ public class AccountActivity extends AppCompatActivity {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(AccountActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
                 return true;

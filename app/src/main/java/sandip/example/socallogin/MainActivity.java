@@ -1,9 +1,14 @@
 package sandip.example.socallogin;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +30,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,7 +40,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+
+import dmax.dialog.SpotsDialog;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -46,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private CallbackManager callbackManager;
     private FirebaseAuth auth;
     private Button facebook, gmail;
+    private Dialog dialog;
 
     //google
     private GoogleApiClient mGoogleApiClient;
@@ -62,6 +73,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         login = findViewById(R.id.login);
         signup = findViewById(R.id.signup);
 
+        dialog = new SpotsDialog(this);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+
+
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,8 +91,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         auth = FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(MainActivity.this, AccountActivity.class));
-            finish();
+            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
 
 
@@ -146,8 +163,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                 if ((email.getText().toString().length() > 0) && (password.getText().toString().length() > 0)) {
 
-                    logincheck(email.getText().toString(), password.getText().toString());
-                }
+                    if(password.getText().toString().length()>=6) {
+                        logincheck(email.getText().toString(), password.getText().toString());
+                    }else
+                        Toast.makeText(MainActivity.this,"Password must be 6 character long",Toast.LENGTH_LONG).show();
+
+
+                }else
+                    Toast.makeText(MainActivity.this, "Both fields are required",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -170,6 +193,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         });
 
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "sandip.example.socallogin",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.e("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
 
     }
 
@@ -214,8 +251,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void logincheck(String email, String password) {
 
 
+        dialog.show();
         //authenticate user
         auth.signInWithEmailAndPassword(email, password)
+                .addOnFailureListener(MainActivity.this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        dialog.dismiss();
+                        Toast.makeText(MainActivity.this, "Oops! Something Went Wrong!", Toast.LENGTH_LONG).show();
+
+
+                    }
+                })
                 .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -223,17 +271,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
 
+                        dialog.dismiss();
                         if (!task.isSuccessful()) {
                             // there was an error
                             Toast.makeText(MainActivity.this, "Oops! Something Went Wrong!", Toast.LENGTH_LONG).show();
 
                         } else {
                             Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             finish();
                         }
+
                     }
                 });
+
 
     }
 }

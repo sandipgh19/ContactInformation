@@ -1,5 +1,6 @@
 package sandip.example.socallogin;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +22,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import dmax.dialog.SpotsDialog;
+
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText nameTxt, emailTxt, passwordTxt;
@@ -30,6 +34,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private RelativeLayout relativeLayout;
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
+    private ProgressBar progressBar;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +44,13 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference("user");
+
+        dialog = new SpotsDialog(this);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+
+
 
 
         nameLayout = findViewById(R.id.name_layout);
@@ -87,25 +99,35 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
             if (nameTxt.getText().toString().length() > 0 && emailTxt.getText().toString().length() > 0 && passwordTxt.getText().toString().length() > 0) {
 
+                if(passwordTxt.getText().toString().length()>=6) {
 
-                auth.createUserWithEmailAndPassword(emailTxt.getText().toString(), passwordTxt.getText().toString())
-                        .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                //Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                if (!task.isSuccessful()) {
-//                                    Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
-//                                            Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(SignupActivity.this, "Oops! Something Went Wrong!", Toast.LENGTH_LONG).show();
+                    dialog.show();
 
-                                } else {
-                                    onAuthSuccess(task.getResult().getUser());
+                    auth.createUserWithEmailAndPassword(emailTxt.getText().toString(), passwordTxt.getText().toString())
+                            .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    //Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                                    // If sign in fails, display a message to the user. If sign in succeeds
+                                    // the auth state listener will be notified and logic to handle the
+                                    // signed in user can be handled in the listener.
+                                    dialog.dismiss();
+                                    if (!task.isSuccessful()) {
+//
+                                        Toast.makeText(SignupActivity.this, "Oops! Something Went Wrong!", Toast.LENGTH_LONG).show();
+
+                                    } else {
+                                        onAuthSuccess(task.getResult().getUser());
+                                    }
                                 }
-                            }
-                        });
+                            });
+                }else
+                    Toast.makeText(SignupActivity.this,"Password must be 6 character long",Toast.LENGTH_LONG).show();
+
+
+
+            }else {
+                Toast.makeText(SignupActivity.this,"All fields are required",Toast.LENGTH_LONG).show();
 
             }
 
@@ -125,7 +147,11 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         writeNewUser(user.getUid(), username, user.getEmail());
 
         // Go to MainActivity
-        startActivity(new Intent(SignupActivity.this, MainActivity.class));
+        //startActivity(new Intent(SignupActivity.this, MainActivity.class));
+        Intent intent = new Intent(SignupActivity.this,MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
         finish();
     }
 
@@ -140,6 +166,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private void writeNewUser(String userId, String name, String email) {
         User user = new User(name, email);
 
-        mDatabase.child("my_app_user").child(userId).setValue(user);
+        mDatabase.child("user_profile").setValue(user);
     }
 }

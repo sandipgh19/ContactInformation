@@ -168,16 +168,6 @@ public class RegistrationActivity extends AppCompatActivity implements GoogleApi
             intent.putExtra("type", "gmail");
             startActivity(intent);
 
-            //email1 = Email;
-            // Thread t1 = new Thread(new Runnable() {
-            //   @Override
-            // public void run() {
-            //new UserLoginTask(Email).execute();
-            //}
-            //}/);
-
-            //t1.start();
-            //startActivity(next);
 
         } else {
             // Log.d(TAG, result.getStatus().toString());

@@ -74,6 +74,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        style="@style/Base.TextAppearance.AppCompat.Widget.ActionMode.Subtitle"
                         android:text="Already Member? Login"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
